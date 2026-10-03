@@ -1,5 +1,5 @@
 # Template de proiect – Programare Web / Dezvoltarea Aplicațiilor Web
-### Branch DumitrascuBogdanConstantin
+### Branch dumitrascu.bogdan
 
 Proiect de pornire pentru laborator, format din două aplicații separate, care comunică prin API:
 
