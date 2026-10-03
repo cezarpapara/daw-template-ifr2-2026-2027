@@ -2,8 +2,9 @@
 #  FRONTEND - 1 container:
 #    daw-react -> aplicatia React (Vite, modul dev)   http://localhost:5173
 #
-#  Pornire:  docker compose up -d --build   (din folderul frontend)
-#  Oprire:   docker compose stop
+#  Comenzile se ruleaza din FOLDERUL PRINCIPAL al proiectului:
+#    Pornire:  docker compose -f frontend/compose.yaml up -d --build
+#    Oprire:   docker compose -f frontend/compose.yaml stop
 # ==========================================================================
 name: daw-frontend
 

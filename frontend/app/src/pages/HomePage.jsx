@@ -27,7 +27,7 @@ function HomePage() {
           <div className="status status-error">
             <strong>Backend-ul nu raspunde.</strong>
             <p>{error}</p>
-            <p>Porniti backend-ul: in folderul backend rulati <code>docker compose up -d</code>.</p>
+            <p>Porniti backend-ul: din folderul principal al proiectului rulati <code>docker compose -f backend/compose.yaml up -d</code>.</p>
           </div>
         )}
 
