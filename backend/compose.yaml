@@ -4,8 +4,9 @@
 #    daw-php      -> aplicatia Symfony      (PHP-FPM)
 #    daw-postgres -> baza de date           localhost:5432 (pentru DBeaver)
 #
-#  Pornire:  docker compose up -d --build   (din folderul backend)
-#  Oprire:   docker compose stop
+#  Comenzile se ruleaza din FOLDERUL PRINCIPAL al proiectului:
+#    Pornire:  docker compose -f backend/compose.yaml up -d --build
+#    Oprire:   docker compose -f backend/compose.yaml stop
 # ==========================================================================
 name: daw-backend
 
