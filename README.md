@@ -1,7 +1,7 @@
 # DAW – Template de laborator: Symfony (backend) + React (frontend) pe Docker
 
 Laboratorul **Dezvoltarea aplicațiilor web** · Informatică IFR, anul 2 · 2026–2027
-Branch (Dumitrascu Bogdan Constantin)
+Branch (Dumitrascu Bogdan Constantin).
 
 Acest proiect conține **două aplicații separate, care comunică între ele**, exact cum se lucrează în industrie:
 
