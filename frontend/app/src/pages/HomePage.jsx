@@ -14,7 +14,7 @@ function HomePage() {
 
   return (
     <>
-      <h1>Aplicatie DAW - Radeanu Lucian Stefan </h1>
+      <h1>Aplicatie DAW - Radeanu Lucian Stefan! </h1>
       <p className="subtitle">Frontend React conectat la un backend Symfony</p>
 
       <section className="card">
