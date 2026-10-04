@@ -14,7 +14,7 @@ function HomePage() {
 
   return (
     <>
-      <h1>Aplicatie DAW git add <div className=""></div>Tudor-Marius</h1>
+      <h1>Aplicatie DAW - Tudor-Marius</h1>
       <p className="subtitle">Frontend React conectat la un backend Symfony</p>
 
       <section className="card">
