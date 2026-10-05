@@ -33,4 +33,20 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function countProducts(): int
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findMaxPrice(): ?float
+    {
+        return $this->createQueryBuilder('p')
+            ->select('MAX(p.price)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

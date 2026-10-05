@@ -110,4 +110,24 @@ class ProductController extends AbstractController
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/count', name: 'product_count', methods: ['GET'])]
+    public function count(ProductRepository $productRepository): JsonResponse
+    {
+        $count = $productRepository->count();
+
+        return $this->json([
+            'count' => $count,
+        ]);
+    }
+
+    #[Route('/max-price', name: 'product_max_price', methods: ['GET'])]
+    public function showMaxPrice(ProductRepository $productRepository): JsonResponse
+    {
+        $maxPrice = $productRepository->findMaxPrice();
+
+        return $this->json([
+            'maxPrice' => $maxPrice,
+        ]);
+    }
 }
