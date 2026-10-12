@@ -30,6 +30,8 @@ export const api = {
   // GET /api/categories
   getCategories: () => request('/api/categories'),
 
+  getTest: () => request('/api/test'),
+
   // POST /api/categories
   createCategory: (category) =>
     request('/api/categories', { method: 'POST', body: JSON.stringify(category) }),
