@@ -14,7 +14,9 @@ function HomePage() {
 
   return (
     <>
-      <h1>Aplicatie DAW</h1>
+      <h1>Aplicatie DAW
+        Curcă-Costan George-Costel - student in anul 2 la Informatica IFR, Bacau
+      </h1>
       <p className="subtitle">Frontend React conectat la un backend Symfony</p>
 
       <section className="card">
