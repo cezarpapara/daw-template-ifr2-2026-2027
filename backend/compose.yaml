@@ -1,4 +1,6 @@
-# ==========================================================================
+#docker compose -f 
+#backend/compose.yaml up -d --
+#build # ==========================================================================
 #  BACKEND - 3 containere:
 #    daw-nginx    -> serverul web           http://localhost:8080
 #    daw-php      -> aplicatia Symfony      (PHP-FPM)
