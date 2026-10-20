@@ -14,7 +14,7 @@ function HomePage() {
 
   return (
     <>
-      <h1>Aplicatia de robotica</h1>
+      <h1>Aplicatia de robotica - Potirniche Iulian</h1>
       <p className="subtitle">Frontend React conectat la un backend Symfony</p>
 
       <section className="card">
