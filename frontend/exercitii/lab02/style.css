@@ -1,0 +1,122 @@
+:root {
+    --culoare-principala: #315c75;
+    --culoare-buton: #2a8a78;
+    --culoare-fundal: #f5f5f5;
+    --culoare-text: #222;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--culoare-fundal);
+    color: var(--culoare-text);
+}
+
+.antet {
+    background-color: var(--culoare-principala);
+    color: white;
+    padding: 20px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.meniu {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.meniu a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.intro {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.buton {
+    display: inline-block;
+    background-color: var(--culoare-buton);
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.grid-produse {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.produs {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px #0002;
+}
+
+@media (max-width: 600px) {
+    .grid-produse {
+        grid-template-columns: 1fr;
+    }
+}
+
+#despre,
+#newsletter {
+    background-color: white;
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+#newsletter input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#newsletter button {
+    padding: 12px 20px;
+    background-color: var(--culoare-buton);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: var(--culoare-principala);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+@media (min-width: 600px) {
+  footer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+}
