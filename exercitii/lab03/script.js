@@ -1,13 +1,13 @@
 
 const titlu = document.querySelector('#titlu');
 const btnTema = document.querySelector('#btn-tema');
-const btnReset = document.querySelector('#btn-reset'); // Exercițiul 1
+const btnReset = document.querySelector('#btn-reset'); 
 const formular = document.querySelector('#formular');
 const inputNume = document.querySelector('#nume');
 const eroareNume = document.querySelector('#eroare-nume');
 const previzualizare = document.querySelector('#previzualizare');
 
-const selectOras = document.querySelector('#oras'); // Exercițiul 4
+const selectOras = document.querySelector('#oras'); 
 const btnVreme = document.querySelector('#btn-vreme');
 const stare = document.querySelector('#stare');
 const listaVreme = document.querySelector('#vreme');
@@ -51,7 +51,7 @@ btnReset.addEventListener('click', () => {
     formular.reset();
 });
 
-// 6. Funcții ajutătoare pentru vreme
+// Funcții ajutătoare pentru vreme
 function adaugaRand(text) {
     const li = document.createElement('li');
     li.textContent = text;
@@ -65,16 +65,16 @@ function determinaSenzatieTermica(temperatura) {
     return 'cald';
 }
 
-// 7. Încărcarea vremii 
+// Încărcarea vremii 
 async function incarcaVremea() {
     stare.textContent = 'Se încarcă...';
     listaVreme.innerHTML = '';
     btnVreme.disabled = true;
 
-    // Exercițiul 4: obținem coordonatele din meniul selectat
+    //  obținem coordonatele din meniul selectat
     const [lat, lon] = selectOras.value.split(',');
 
-    // Exercițiul 5: adăugăm parametrul &timezone=auto
+    //  adăugăm parametrul &timezone=auto
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m&timezone=auto`;
 
     try {
@@ -91,7 +91,7 @@ async function incarcaVremea() {
 
         adaugaRand(`Temperatura: ${acum.temperature_2m} ${u.temperature_2m} (${descriere})`);
         adaugaRand(`Vântul: ${acum.wind_speed_10m} ${u.wind_speed_10m}`);
-        adaugaRand(`Ora măsurătorii (locală): ${acum.time}`); // Exercițiul 5: Ora locală
+        adaugaRand(`Ora măsurătorii (locală): ${acum.time}`); 
 
         stare.textContent = '';
     } catch (eroare) {
