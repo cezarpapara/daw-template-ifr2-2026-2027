@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const EMPTY = { name: '', email: '', message: '' };
+const EMPTY = { name: '', email: '', subject: '', message: '' };
 
 function validate(values) {
     const errors = {};
@@ -10,8 +10,13 @@ function validate(values) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
         errors.email = 'Introduceți o adresă validă, de exemplu ion@exemplu.ro.';
     }
+    if (values.subject.trim().length < 5) {
+        errors.message = 'Subiectul trebuie sa aiba cel putin 5 caractere.'
+    }
     if (values.message.trim().length < 10) {
         errors.message = 'Mesajul trebuie să aibă cel puțin 10 caractere.';
+    } else if (values.message.length > 500) {
+        errors.message = 'Mesajul nu poate depasi 500 caractere.';
     }
     return errors;
 }
@@ -41,38 +46,48 @@ export default function ContactPage() {
     }
 
     return (
-<section>
-<h1>Contact</h1>
-{sent && <p className="form-success">Mesajul a fost trimis. Mulțumim!</p>}
-<form onSubmit={handleSubmit} noValidate>
-<div className="form-field">
-<label htmlFor="name">Nume</label>
-<input id="name" name="name" value={values.name}
-onChange={handleChange} onBlur={handleBlur} />
-{touched.name && errors.name && (
-<p className="form-error">{errors.name}</p>
-)}
-</div>
-<div className="form-field">
-<label htmlFor="email">E-mail</label>
-<input id="email" name="email" type="email"
-value={values.email}
-onChange={handleChange} onBlur={handleBlur} />
-{touched.email && errors.email && (
-<p className="form-error">{errors.email}</p>
-)}
-</div>
-<div className="form-field">
-<label htmlFor="message">Mesaj</label>
-<textarea id="message" name="message" rows="5"
-value={values.message}
-onChange={handleChange} onBlur={handleBlur} />
-{touched.message && errors.message && (
-<p className="form-error">{errors.message}</p>
-)}
-</div>
-<button type="submit" disabled={!isValid}>Trimite</button>
-</form>
-</section>
-);
+        <section>
+            <h1>Contact</h1>
+            {sent && <p className="form-success">Mesajul a fost trimis. Mulțumim!</p>}
+            <form onSubmit={handleSubmit} noValidate>
+                <div className="form-field">
+                    <label htmlFor="name">Nume</label>
+                    <input id="name" name="name" value={values.name}
+                        onChange={handleChange} onBlur={handleBlur} />
+                    {touched.name && errors.name && (
+                        <p className="form-error">{errors.name}</p>
+                    )}
+                </div>
+                <div className="form-field">
+                    <label htmlFor="email">E-mail</label>
+                    <input id="email" name="email" type="email"
+                        value={values.email}
+                        onChange={handleChange} onBlur={handleBlur} />
+                    {touched.email && errors.email && (
+                        <p className="form-error">{errors.email}</p>
+                    )}
+                </div>
+                 <div className="form-field">
+                    <label htmlFor="subject">Subject</label>
+                    <textarea id="subject" name="subject"
+                        value={values.subject}
+                        onChange={handleChange} onBlur={handleBlur} />
+                    {touched.subject && errors.subject && (
+                        <p className="form-error">{errors.subject}</p>
+                    )}
+                </div>
+                <div className="form-field">
+                    <label htmlFor="message">Mesaj</label>
+                    <textarea id="message" name="message" rows="5"
+                        value={values.message}
+                        onChange={handleChange} onBlur={handleBlur} />
+                    <p className="form-counter">{values.message.length} / 500</p>
+                    {touched.message && errors.message && (
+                        <p className="form-error">{errors.message}</p>
+                    )}
+                </div>
+                <button type="submit" disabled={!isValid}>Trimite</button>
+            </form>
+        </section>
+    );
 }
