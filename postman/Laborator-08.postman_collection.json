@@ -1,0 +1,393 @@
+{
+    "info":  {
+                 "_postman_id":  "1f8604fe-2b9e-4e4b-8e4b-da1d358d1c66",
+                 "name":  "DAW API (IFR 2, 2026-2027)",
+                 "description":  "Cereri de exemplu pentru backend-ul Symfony. Porniti backend-ul inainte (docker compose up -d in folderul backend).",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "_exporter_id":  "58698675",
+                 "_collection_link":  "https://go.postman.co/collection/58698675-1f8604fe-2b9e-4e4b-8e4b-da1d358d1c66?source=collection_link"
+             },
+    "item":  [
+                 {
+                     "name":  "Categorii",
+                     "item":  [
+                                  {
+                                      "name":  "Lista categoriilor",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categories",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categories"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Adauga categorie",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\n  \"name\": \"Jucarii\"\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categories",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categories"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Produse",
+                     "item":  [
+                                  {
+                                      "name":  "Lista produselor",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/products",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "products"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Un produs dupa id",
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/products/1",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "products",
+                                                                               "1"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Adauga produs",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\n  \"name\": \"Mouse wireless\",\n  \"description\": \"Mouse optic, 1600 DPI\",\n  \"price\": \"59.90\",\n  \"categoryId\": 1\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/products",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "products"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Sterge produs",
+                                      "request":  {
+                                                      "method":  "DELETE",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/products/1",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "products",
+                                                                               "1"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Stare backend",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+
+                                                ],
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/api/health",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "api",
+                                                              "health"
+                                                          ]
+                                             },
+                                     "description":  "Verifica daca backend-ul si baza de date functioneaza."
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator 8 Post Recenzie",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\r\n{\r\n  \"author\": \"\",\r\n  \"rating\": 4,\r\n  \"productId\": 1\r\n}\r\n\r\n",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/reviews",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "reviews"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator 8 Eroare autor gol",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\r\n{\r\n  \"author\": \"\",\r\n  \"rating\": 4,\r\n  \"productId\": 1\r\n}\r\n\r\n",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/reviews",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "reviews"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator 8 Eroare la rating",
+                     "request":  {
+                                     "method":  "POST",
+                                     "url":  "http://localhost:8080/api/reviews",
+                                     "body":  {
+                                                  "raw":  "{\"author\":\"Madalina\",\"rating\":\"4\",\"productId\":1}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator 8 Put Recenzie",
+                     "request":  {
+                                     "method":  "PUT",
+                                     "url":  "http://localhost:8080/api/reviews/9",
+                                     "body":  {
+                                                  "raw":  "{\"author\":\"Madalina\",\"rating\":3,\"comment\":\"Recenzie modificata\",\"productId\":1}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator Delete Recenzie",
+                     "request":  {
+                                     "method":  "DELETE",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\r\n",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/reviews/9",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "reviews",
+                                                              "9"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "Laborator8 GET dupa stergere",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/reviews/9",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "reviews",
+                                                              "9"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 }
+             ],
+    "variable":  [
+                     {
+                         "key":  "baseUrl",
+                         "value":  "http://localhost:8080"
+                     }
+                 ]
+}
