@@ -1,17 +1,29 @@
 import React from 'react';
 import catPhoto from '../assets/cat.jpg'
 
-export default function TestFunction() {
+const CuteCatInfo = () => {
     return (
-        <div style={{
-            display: 'grid',
-            justifyContent: 'center',
-            height: '100vh'
-        }}>
-            <div>
-                <h1>Cat</h1>
-                <img src={catPhoto}/>
+        <h1>Cats are really cute</h1>
+        )
+}
+export const TestFunction = () => {
+    return (
+        <>
+            <div style={{
+                display: 'grid',
+                justifyContent: 'center',
+                height: '100vh'
+            }}>
+                <div>
+                    <h1>Cat</h1>
+                    <img src={catPhoto}/>
+                </div>
             </div>
-        </div>
+            <button onClick={() => {
+                alert("Cat");
+            }}
+            >Cat Button</button>
+            <CuteCatInfo />
+        </>
     )
 }
