@@ -3,7 +3,7 @@ import HomePage from './pages/HomePage.jsx'
 import CategoriesPage from './pages/CategoriesPage.jsx'
 import ProductsPage from './pages/ProductsPage.jsx'
 import ProductDetailsPage from './pages/ProductDetailsPage.jsx'
-import TestFunction from "./pages/TestPage.jsx";
+import { TestFunction } from "./pages/TestPage.jsx";
 import './App.css'
 
 // Structura comuna a tuturor paginilor: meniul de sus + pagina curenta
