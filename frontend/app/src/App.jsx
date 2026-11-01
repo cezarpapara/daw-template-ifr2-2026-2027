@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router'
 import HomePage from './pages/HomePage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
 import CategoriesPage from './pages/CategoriesPage.jsx'
 import ProductsPage from './pages/ProductsPage.jsx'
 import ProductDetailsPage from './pages/ProductDetailsPage.jsx'
@@ -13,6 +14,7 @@ function App() {
         <span className="logo">DAW</span>
         <nav>
           <NavLink to="/" end>Acasa</NavLink>
+          <NavLink to="/despre">Despre</NavLink>
           <NavLink to="/categorii">Categorii</NavLink>
           <NavLink to="/produse">Produse</NavLink>
         </nav>
@@ -22,6 +24,7 @@ function App() {
         {/* Fiecare adresa (URL) afiseaza o alta pagina */}
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/despre" element={<AboutPage />} />
           <Route path="/categorii" element={<CategoriesPage />} />
           <Route path="/produse" element={<ProductsPage />} />
           <Route path="/produse/:id" element={<ProductDetailsPage />} />
