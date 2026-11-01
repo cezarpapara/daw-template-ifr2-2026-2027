@@ -1,3 +1,5 @@
+
+import { useState } from 'react';
 import Card from '../components/Card';
 import PageTitle from '../components/PageTitle';
 
@@ -27,6 +29,8 @@ const sections = [
 ];
 
 export default function AboutPage() {
+  const [count, setCount] = useState(0);
+
   return (
     <section>
       <PageTitle
@@ -44,6 +48,23 @@ export default function AboutPage() {
             imageAlt={section.imageAlt}
           />
         ))}
+      </div>
+
+      <div style={{ marginTop: '24px' }}>
+        <button
+          type="button"
+          onClick={() => setCount((previous) => previous + 1)}
+        >
+          Ați apăsat de {count} ori
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setCount(0)}
+          style={{ marginLeft: '12px' }}
+        >
+          Resetează
+        </button>
       </div>
     </section>
   );

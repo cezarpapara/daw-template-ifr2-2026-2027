@@ -162,3 +162,36 @@ button {
   height: 140px;
   object-fit: cover;
 }
+
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  max-width: 480px;
+}
+
+.form-field input,
+.form-field textarea {
+  padding: 10px;
+  border: 1px solid #b8c2cc;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.form-error {
+  color: #b42318;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.form-success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
