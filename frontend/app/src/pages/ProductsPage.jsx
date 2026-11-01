@@ -95,6 +95,10 @@ function ProductsPage() {
         </form>
       </section>
 
+
+
+      <section className="card">
+        <h2>Lista produselor</h2>
       <input
         type="search"
         placeholder="Caută după nume…"
@@ -103,9 +107,6 @@ function ProductsPage() {
         onChange={(event) => setSearch(event.target.value)}
       />
 
-
-      <section className="card">
-        <h2>Lista produselor</h2>
         <table>
           <thead>
             <tr>
