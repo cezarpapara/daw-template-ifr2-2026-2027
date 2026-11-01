@@ -40,9 +40,10 @@ formular.addEventListener('submit', (event) => {
     formular.reset();
 });
 
-// 5. Utilizarea Open-Meteo API (public) pentru obtinere detalii vreme
-const URL_VREME = 'https://api.open-meteo.com/v1/forecast'
-+ '?latitude=47.16&longitude=27.57&current=temperature_2m,wind_speed_10m';
+// 5. Utilizarea Open-Meteo API (public) pentru obtinere detalii vreme + selectie dinamica
+//const URL_VREME = 'https://api.open-meteo.com/v1/forecast'
+//+ '?latitude=47.16&longitude=27.57&current=temperature_2m,wind_speed_10m';
+const selectOras = document.querySelector('#oras');
 const btnVreme = document.querySelector('#btn-vreme');
 const stare = document.querySelector('#stare');
 const listaVreme = document.querySelector('#vreme');
@@ -68,8 +69,14 @@ async function incarcaVremea() {
     stare.textContent = 'Se încarcă…';
     listaVreme.innerHTML = '';
     btnVreme.disabled = true;
+
+    // Preluam valoarea selectata si o impartim in lat si lon
+    const [lat, lon] = selectOras.value.split(',');
+    // Construim URL-ul dinamic utilizand coordonatele orasului
+    const urlDinamic = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m`;
+
     try {
-        const raspuns = await fetch(URL_VREME);
+        const raspuns = await fetch(urlDinamic);
         if (!raspuns.ok) {
             throw new Error('Serverul a răspuns cu codul ' + raspuns.status);
         }
