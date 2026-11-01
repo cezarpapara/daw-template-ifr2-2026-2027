@@ -1,5 +1,6 @@
+import { getHello } from '../api';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Card from '../components/Card';
 import PageTitle from '../components/PageTitle';
 
@@ -29,10 +30,29 @@ const sections = [
 ];
 
 export default function AboutPage() {
+  const [salut, setSalut] = useState('Se încarcă salutul...');
+
+  useEffect(() => {
+    let activ = true;
+
+    getHello('Madalina')
+      .then((data) => {
+        if (activ) setSalut(data.message);
+      })
+      .catch(() => {
+        if (activ) setSalut('Salutul nu a putut fi încărcat.');
+      });
+
+    return () => {
+      activ = false;
+    };
+  }, []);
+
   const [count, setCount] = useState(0);
 
   return (
     <section>
+      <p role="status">{salut}</p>
       <PageTitle
         title="Despre proiect"
         subtitle="Aplicație realizată la laboratorul DAW, 2026–2027."

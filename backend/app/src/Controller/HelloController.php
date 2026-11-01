@@ -74,4 +74,30 @@ final class HelloController extends AbstractController
             'sum' => $a + $b,
         ]);
     }
+
+    #[Route('/api/factorial/{n}', name: 'api_factorial', methods: ['GET'])]
+    public function factorial(string $n): JsonResponse
+    {
+        $numar = filter_var($n, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 0, 'max_range' => 20],
+        ]);
+
+        if ($numar === false) {
+            return $this->json(
+                ['error' => 'n trebuie să fie un număr întreg între 0 și 20.'],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        $rezultat = 1;
+
+        for ($i = 2; $i <= $numar; $i++) {
+            $rezultat *= $i;
+        }
+
+        return $this->json([
+            'n' => $numar,
+            'factorial' => $rezultat,
+        ]);
+    }
 }
