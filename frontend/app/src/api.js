@@ -52,3 +52,43 @@ export const api = {
 export function getHello(name) {
   return request('/api/hello/' + encodeURIComponent(name));
 }
+
+const REVIEWS_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8080')
+  .replace(/\/+$/, '')
+  .replace(/\/api$/, '');
+
+async function reviewError(res) {
+  const body = await res.json().catch(() => ({}));
+  const fields = body.errors || {};
+  const message = Object.values(fields).join(' ')
+    || body.error || `Eroare ${res.status}`;
+
+  const error = new Error(message);
+  error.fields = fields;
+  return error;
+}
+
+export async function getReviews(productId) {
+  const res = await fetch(`${REVIEWS_BASE}/api/products/${productId}/reviews`);
+  if (!res.ok) throw await reviewError(res);
+  return res.json();
+}
+
+export async function createReview(data) {
+  const res = await fetch(`${REVIEWS_BASE}/api/reviews`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw await reviewError(res);
+  return res.json();
+}
+
+export async function deleteReview(id) {
+  const res = await fetch(`${REVIEWS_BASE}/api/reviews/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) throw await reviewError(res);
+}
