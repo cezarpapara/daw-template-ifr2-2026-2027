@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { api } from '../api.js'
 import Card from '../components/Card.jsx'
 import PageTitle from '../components/PageTitle.jsx'
 
@@ -34,12 +35,21 @@ export default function AboutPage() {
   // Exercitiul 1: starea contorului (porneste de la 0)
   const [count, setCount] = useState(0)
 
+  // Laboratorul 06, optionalul 5: mesajul primit de la backend, GET /api/hello/Iulian
+  const [hello, setHello] = useState(null)
+  useEffect(() => {
+    api.getHello('Iulian')
+      .then((data) => setHello(data.message))
+      .catch(() => setHello(null))
+  }, [])
+
   return (
     <section>
       <PageTitle
         title="Despre proiect"
         subtitle="Aplicația de robotică, realizată la laboratorul de PW/DAW, 2026–2027."
       />
+      {hello && <p className="status status-ok">Mesaj de la backend: {hello}</p>}
       {/* Exercitiul 5 (optional): numarul de sectiuni */}
       <p className="muted">Proiectul are {sections.length} părți principale.</p>
 

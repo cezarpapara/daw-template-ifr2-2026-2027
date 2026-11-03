@@ -27,6 +27,9 @@ export const api = {
   // GET /api/health
   getHealth: () => request('/api/health'),
 
+  // GET /api/hello/{name} (Laboratorul 06)
+  getHello: (name) => request(`/api/hello/${name}`),
+
   // GET /api/categories
   getCategories: () => request('/api/categories'),
 
