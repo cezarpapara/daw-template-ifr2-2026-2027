@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Card from '../components/Card.jsx'
 import PageTitle from '../components/PageTitle.jsx'
 
@@ -30,6 +31,9 @@ const sections = [
 ]
 
 export default function AboutPage() {
+  // Exercitiul 1: starea contorului (porneste de la 0)
+  const [count, setCount] = useState(0)
+
   return (
     <section>
       <PageTitle
@@ -49,6 +53,16 @@ export default function AboutPage() {
             imageAlt={section.imageAlt}
           />
         ))}
+      </div>
+
+      {/* Exercitiul 1: butonul-contor si butonul Reseteaza */}
+      <div className="counter">
+        <button type="button" onClick={() => setCount(count + 1)}>
+          Ați apăsat de {count} ori
+        </button>
+        <button type="button" onClick={() => setCount(0)}>
+          Resetează
+        </button>
       </div>
     </section>
   )
