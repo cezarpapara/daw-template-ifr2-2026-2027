@@ -1,4 +1,189 @@
-body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
-.intunecat { background: #1f2937; color: #f9fafb; }
-.eroare { color: #b42318; }
-.intunecat .eroare { color: #fca5a5; } /* roșu deschis, ca să se vadă pe fundal închis */
+/* Variabile: culorile temei luminoase */
+:root {
+  --fundal: #eef2f8;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-slab: #6b7280;
+  --margine: #e5e7eb;
+  --principal: #2563eb;
+  --principal-inchis: #1d4ed8;
+  --eroare: #b42318;
+  --panou: linear-gradient(135deg, #3b82f6, #1e40af);
+  --raza: 12px;
+}
+
+/* Tema închisă: aceleași variabile, alte valori. JavaScript doar pune/scoate clasa. */
+.intunecat {
+  --fundal: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+  --text-slab: #94a3b8;
+  --margine: #334155;
+  --eroare: #fca5a5;
+  --panou: linear-gradient(135deg, #1e3a8a, #312e81);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--fundal);
+  transition: background 0.2s, color 0.2s;
+}
+
+.pagina {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Antetul paginii */
+.antet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.supratitlu {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--principal);
+}
+
+.intunecat .supratitlu { color: #93c5fd; }
+.antet h1 { margin: 0; font-size: 2rem; }
+.actiuni { display: flex; gap: 0.5rem; }
+
+/* Cardurile */
+.card {
+  background: var(--card);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.card h2 { margin-top: 0; font-size: 1.25rem; }
+
+/* Formulare */
+label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.rand { display: flex; gap: 0.5rem; }
+
+input, select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.8rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--margine);
+  border-radius: var(--raza);
+}
+
+input:focus, select:focus { outline: 2px solid var(--principal); outline-offset: 1px; }
+
+/* Butoane */
+.buton {
+  padding: 0.65rem 1.1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  white-space: nowrap;
+  color: #fff;
+  background: var(--principal);
+  border: none;
+  border-radius: var(--raza);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.buton:hover, .buton:focus-visible { background: var(--principal-inchis); }
+.buton:active { transform: scale(0.97); }
+.buton:disabled { opacity: 0.6; cursor: wait; }
+
+.buton-secundar {
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--margine);
+}
+
+.buton-secundar:hover, .buton-secundar:focus-visible { background: var(--margine); }
+
+/* Mesaje */
+.eroare { color: var(--eroare); min-height: 1.5em; margin: 0.35rem 0 0; }
+.previzualizare { margin: 0.5rem 0 0; color: var(--text-slab); }
+.stare { color: var(--text-slab); margin: 1rem 0 0; }
+.stare:empty { display: none; }
+
+/* Panoul principal cu vremea */
+.vreme-principal {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  color: #fff;
+  background: var(--panou);
+  border-radius: var(--raza);
+}
+
+.vreme-principal[hidden] { display: none; }
+.vreme-icon { font-size: 3.5rem; line-height: 1; }
+.vreme-temp { margin: 0; font-size: 2.75rem; font-weight: 700; line-height: 1; }
+.vreme-desc { margin: 0.35rem 0 0; opacity: 0.9; }
+
+/* Eticheta rece / plăcut / cald */
+.eticheta {
+  margin-left: auto;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.eticheta-rece { background: #bae6fd; color: #075985; }
+.eticheta-plăcut { background: #bbf7d0; color: #166534; }
+.eticheta-cald { background: #fed7aa; color: #9a3412; }
+
+/* Lista de detalii: etichetă la stânga, valoare la dreapta */
+.vreme {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.vreme li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--margine);
+}
+
+.vreme li:last-child { border-bottom: none; }
+.vreme li span:first-child { color: var(--text-slab); }
+.vreme .valoare { font-weight: 600; text-align: right; }
+
+/* Pe telefon: butoanele trec sub câmpuri */
+@media (max-width: 480px) {
+  .rand { flex-direction: column; }
+  .vreme-principal { flex-wrap: wrap; }
+}

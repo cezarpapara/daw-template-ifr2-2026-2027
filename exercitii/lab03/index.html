@@ -7,24 +7,57 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 id="titlu">Laboratorul 03</h1>
-  <button id="btn-tema" type="button">Schimbă tema</button>
-  <!-- Exercițiul 1: butonul Resetează -->
-  <button id="btn-reset" type="button">Resetează</button>
+  <main class="pagina">
+    <header class="antet">
+      <div>
+        <p class="supratitlu">DAW · JavaScript, DOM și fetch</p>
+        <h1 id="titlu">Laboratorul 03</h1>
+      </div>
+      <div class="actiuni">
+        <button id="btn-tema" type="button" class="buton buton-secundar">Schimbă tema</button>
+        <!-- Exercițiul 1: butonul Resetează -->
+        <button id="btn-reset" type="button" class="buton buton-secundar">Resetează</button>
+      </div>
+    </header>
 
-  <h2>Formular</h2>
-  <form id="formular" novalidate>
-    <label for="nume">Numele vostru</label>
-    <input id="nume" type="text" autocomplete="name">
-    <button type="submit">Trimite</button>
-    <p id="eroare-nume" class="eroare"></p>
-  </form>
-  <p>Previzualizare: Salut, <strong id="previzualizare">...</strong>!</p>
+    <section class="card">
+      <h2>Formular</h2>
+      <form id="formular" novalidate>
+        <label for="nume">Numele vostru</label>
+        <div class="rand">
+          <input id="nume" type="text" autocomplete="name" placeholder="de exemplu, Iulian">
+          <button type="submit" class="buton">Trimite</button>
+        </div>
+        <p id="eroare-nume" class="eroare"></p>
+      </form>
+      <p class="previzualizare">Previzualizare: Salut, <strong id="previzualizare">...</strong>!</p>
+    </section>
 
-  <h2>Vremea în Bacău</h2>
-  <button id="btn-vreme" type="button">Afișează vremea</button>
-  <p id="stare"></p>
-  <ul id="vreme"></ul>
+    <section class="card">
+      <h2 id="titlu-vreme">Vremea în Bacău</h2>
+
+      <!-- Opționalul 4, extins: toate județele țării (lista se completează din JavaScript) -->
+      <label for="oras">Județul</label>
+      <div class="rand">
+        <select id="oras"></select>
+        <button id="btn-vreme" type="button" class="buton">Afișează vremea</button>
+      </div>
+
+      <p id="stare" class="stare"></p>
+
+      <!-- Panoul principal: ascuns până sosesc datele -->
+      <div id="vreme-principal" class="vreme-principal" hidden>
+        <span id="vreme-icon" class="vreme-icon" aria-hidden="true"></span>
+        <div>
+          <p id="vreme-temp" class="vreme-temp"></p>
+          <p id="vreme-desc" class="vreme-desc"></p>
+        </div>
+        <span id="vreme-eticheta" class="eticheta"></span>
+      </div>
+
+      <ul id="vreme" class="vreme"></ul>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
