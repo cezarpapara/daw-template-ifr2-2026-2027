@@ -6,6 +6,30 @@
 
 body {
   margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  /* Calea catre imaginea din folderul public */
+  background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('/background.jpg');
+  /* Imaginea va acoperi intreg ecranul */
+  background-size: cover;
+  /* Imaginea ramane fixa la derularea paginii */
+  background-attachment: fixed;
+  /* Centreaza imaginea */
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #f8fafc;
+}
+
+
+.header {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+body {
+  margin: 0;
 }
 
 /* Meniul de sus */
