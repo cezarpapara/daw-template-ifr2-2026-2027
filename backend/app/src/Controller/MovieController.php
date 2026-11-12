@@ -17,40 +17,47 @@ class MovieController extends AbstractController
 {
     private string $omdbApiKey = '19ac3128'; // Omdb key
 
-    private function fetchPosterFromOmdb(string $title, int $year): ?string
+private function fetchMovieDataFromOmdb(string $title, ?int $year): array
     {
-        if ($this->omdbApiKey === 'PUNE_AICI_CHEIA_TA') {
-            return null;
+        $result = ['poster' => null, 'year' => null, 'genre' => null];
+
+        if (empty($this->omdbApiKey)) {
+            return $result;
         }
 
-        $ctx = stream_context_create([
-            'http' => [
-                'timeout' => 3,
-                'ignore_errors' => true
-            ]
-        ]);
-
-        // Incercarea 1: cautare dupa titlu + an
-        $urls = [
-            sprintf('http://www.omdbapi.com/?t=%s&y=%d&apikey=%s', urlencode($title), $year, $this->omdbApiKey),
-            sprintf('http://www.omdbapi.com/?t=%s&apikey=%s', urlencode($title), $this->omdbApiKey) // Incercarea 2: doar dupa titlu
-        ];
+        $urls = [];
+        if ($year !== null) {
+            $urls[] = sprintf('https://www.omdbapi.com/?t=%s&y=%d&apikey=%s', urlencode($title), $year, $this->omdbApiKey);
+        }
+        $urls[] = sprintf('https://www.omdbapi.com/?t=%s&apikey=%s', urlencode($title), $this->omdbApiKey);
 
         foreach ($urls as $url) {
-            try {
-                $response = @file_get_contents($url, false, $ctx);
-                if ($response !== false) {
-                    $data = json_decode($response, true);
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            if ($response !== false) {
+                $data = json_decode($response, true);
+                if (isset($data['Response']) && $data['Response'] === 'True') {
                     if (!empty($data['Poster']) && $data['Poster'] !== 'N/A') {
-                        return $data['Poster'];
+                        $result['poster'] = $data['Poster'];
                     }
+                    if (!empty($data['Year'])) {
+                        $result['year'] = (int) substr($data['Year'], 0, 4);
+                    }
+                    if (!empty($data['Genre']) && $data['Genre'] !== 'N/A') {
+                        $result['genre'] = $data['Genre'];
+                    }
+                    return $result;
                 }
-            } catch (\Throwable $e) {
-                // ignoram si incercam urmatorul URL
             }
         }
 
-        return null;
+        return $result;
     }
 
     #[Route('', name: 'api_movies_index', methods: ['GET'])]
@@ -67,42 +74,40 @@ class MovieController extends AbstractController
     }
 
     #[Route('', name: 'api_movies_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em): JsonResponse
+public function create(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!$data || empty($data['title']) || empty($data['genre']) || empty($data['releaseYear'])) {
-            return $this->json([
-                'error' => 'Titlul, genul și anul lansării sunt obligatorii!'
-            ], Response::HTTP_BAD_REQUEST);
+        if (empty($data['title'])) {
+            return $this->json(['error' => 'Titlul filmului este obligatoriu!'], 400);
+        }
 
-                    // Daca utilizatorul a introdus manual un link de afis, il folosim direct:
-        if (!empty($data['posterUrl'])) {
-            $movie->setPosterUrl(trim($data['posterUrl']));
-        } else {
-            // Detectarea automata prin OMDb:
-            $movie->setPosterUrl($this->fetchPosterFromOmdb($movie->getTitle(), $movie->getReleaseYear()));
-        }
-        }
+        $title = trim($data['title']);
+        $inputGenre = !empty($data['genre']) ? trim($data['genre']) : null;
+        $inputYear = !empty($data['releaseYear']) ? (int) $data['releaseYear'] : null;
+
+        // Preluam datele de pe OMDb (poster, an, gen)
+        $omdbData = $this->fetchMovieDataFromOmdb($title, $inputYear);
+
+        // Folosim valorile introduse de utilizator sau fallback la datele din OMDb
+        $finalGenre = $inputGenre ?? $omdbData['genre'] ?? 'Necunoscut';
+        $finalYear = $inputYear ?? $omdbData['year'] ?? (int) date('Y');
 
         $movie = new Movie();
-        $movie->setTitle(trim($data['title']));
-        $movie->setGenre($data['genre']);
-        $movie->setReleaseYear((int)$data['releaseYear']);
-        $movie->setIsWatched($data['isWatched'] ?? false);
-        $movie->setRating(isset($data['rating']) && $data['rating'] !== '' ? (int)$data['rating'] : null);
-
-        // Preluam automat afisul oficial de pe IMDb prin OMDb API
-        $posterUrl = $this->fetchPosterFromOmdb($movie->getTitle(), $movie->getReleaseYear());
-        $movie->setPosterUrl($posterUrl);
+        $movie->setTitle($title);
+        $movie->setGenre($finalGenre);
+        $movie->setReleaseYear($finalYear);
+        $movie->setIsWatched((bool) ($data['isWatched'] ?? false));
+        $movie->setRating(isset($data['rating']) && $data['rating'] !== '' ? (int) $data['rating'] : null);
+        $movie->setPosterUrl($omdbData['poster']);
 
         $em->persist($movie);
         $em->flush();
 
         return $this->json([
-            'message' => 'Filmul a fost adăugat cu succes!',
+            'message' => 'Film adăugat cu succes!',
             'movie' => $movie->toArray()
-        ], Response::HTTP_CREATED);
+        ], 201);
     }
 
     #[Route('/{id}', name: 'api_movies_show', methods: ['GET'])]
@@ -118,46 +123,43 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'api_movies_update', methods: ['PUT'])]
-    public function update(int $id, Request $request, EntityManagerInterface $em): JsonResponse
+public function update(int $id, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $movie = $em->getRepository(Movie::class)->find($id);
-
         if (!$movie) {
-            return $this->json(['error' => 'Filmul nu a fost găsit!'], Response::HTTP_NOT_FOUND);
+            return $this->json(['error' => 'Filmul nu a fost găsit!'], 404);
         }
 
         $data = json_decode($request->getContent(), true);
 
-        // Daca utilizatorul a introdus manual un link de afis, il folosim direct:
-        if (!empty($data['posterUrl'])) {
-            $movie->setPosterUrl(trim($data['posterUrl']));
-        } else {
-            // Detectarea automata prin OMDb:
-            $movie->setPosterUrl($this->fetchPosterFromOmdb($movie->getTitle(), $movie->getReleaseYear()));
+        $title = isset($data['title']) ? trim($data['title']) : $movie->getTitle();
+        $inputGenre = array_key_exists('genre', $data)
+            ? (!empty($data['genre']) ? trim($data['genre']) : null)
+            : $movie->getGenre();
+        $inputYear = array_key_exists('releaseYear', $data) 
+            ? (!empty($data['releaseYear']) ? (int) $data['releaseYear'] : null) 
+            : $movie->getReleaseYear();
+
+        $omdbData = $this->fetchMovieDataFromOmdb($title, $inputYear);
+        $finalGenre = $inputGenre ?? $omdbData['genre'] ?? $movie->getGenre();
+        $finalYear = $inputYear ?? $omdbData['year'] ?? $movie->getReleaseYear();
+
+        $movie->setTitle($title);
+        $movie->setGenre($finalGenre);
+        $movie->setReleaseYear($finalYear);
+        if (isset($data['isWatched'])) $movie->setIsWatched((bool) $data['isWatched']);
+        if (array_key_exists('rating', $data)) {
+            $movie->setRating($data['rating'] !== '' && $data['rating'] !== null ? (int) $data['rating'] : null);
         }
 
-        if (!$data || empty($data['title']) || empty($data['genre']) || empty($data['releaseYear'])) {
-            return $this->json(['error' => 'Date invalide pentru actualizare!'], Response::HTTP_BAD_REQUEST);
-        }
-
-        $previousTitle = $movie->getTitle();
-        $previousYear = $movie->getReleaseYear();
-
-        $movie->setTitle(trim($data['title']));
-        $movie->setGenre($data['genre']);
-        $movie->setReleaseYear((int)$data['releaseYear']);
-        $movie->setIsWatched($data['isWatched'] ?? false);
-        $movie->setRating(isset($data['rating']) && $data['rating'] !== '' ? (int)$data['rating'] : null);
-
-        // Daca titlul sau anul s-au schimbat, refacem cautarea afisului
-        if ($previousTitle !== $movie->getTitle() || $previousYear !== $movie->getReleaseYear()) {
-            $movie->setPosterUrl($this->fetchPosterFromOmdb($movie->getTitle(), $movie->getReleaseYear()));
+        if ($omdbData['poster']) {
+            $movie->setPosterUrl($omdbData['poster']);
         }
 
         $em->flush();
 
         return $this->json([
-            'message' => 'Filmul a fost modificat cu succes!',
+            'message' => 'Film actualizat cu succes!',
             'movie' => $movie->toArray()
         ]);
     }

@@ -51,13 +51,13 @@ export default function Movies() {
     setMessage(null);
     setError(null);
 
-    const payload = {
-      title,
-      genre,
-      releaseYear: parseInt(releaseYear, 10),
-      isWatched,
-      rating: rating !== '' ? parseInt(rating, 10) : null,
-    };
+const payload = {
+  title,
+  genre: genre.trim() !== '' ? genre.trim() : null,
+  releaseYear: releaseYear !== '' ? parseInt(releaseYear, 10) : null,
+  isWatched,
+  rating: rating !== '' ? parseInt(rating, 10) : null,
+};
 
     const url = editingId 
       ? `http://localhost:8080/api/movies/${editingId}` 
@@ -202,7 +202,6 @@ export default function Movies() {
               value={genre} 
               onChange={(e) => setGenre(e.target.value)} 
               placeholder="ex: SF, Actiune, Drama" 
-              required 
               style={{ width: '100%', padding: '9px', borderRadius: '5px', border: '1px solid #cbd5e1', boxSizing: 'border-box', color: '#0f172a', background: '#fff' }}
             />
           </div>
@@ -214,7 +213,6 @@ export default function Movies() {
               value={releaseYear} 
               onChange={(e) => setReleaseYear(e.target.value)} 
               placeholder="ex: 2024"
-              required 
               style={{ width: '100%', padding: '9px', borderRadius: '5px', border: '1px solid #cbd5e1', boxSizing: 'border-box', color: '#0f172a', background: '#fff' }}
             />
           </div>
