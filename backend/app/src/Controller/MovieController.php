@@ -15,7 +15,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[OA\Tag(name: 'Filme')]
 class MovieController extends AbstractController
 {
-    private string $omdbApiKey = '19ac3128'; // Omdb key
+    private string $omdbApiKey = '19ac3128'; // OMDb key
+    private string $tmdbApiKey = '10159b77ac692bb50e956e3f7240b397'; // TMDB v3 API key
+
 
 private function fetchMovieDataFromOmdb(string $title, ?int $year): array
     {
@@ -177,5 +179,107 @@ public function update(int $id, Request $request, EntityManagerInterface $em): J
         $em->flush();
 
         return $this->json(['message' => 'Filmul a fost șters din colecție!']);
+    }
+    #[Route('/{id}/streaming', name: 'api_movies_streaming', methods: ['GET'])]
+    public function getStreamingProviders(int $id, EntityManagerInterface $em): JsonResponse
+    {
+        $movie = $em->getRepository(Movie::class)->find($id);
+        if (!$movie) {
+            return $this->json(['error' => 'Filmul nu a fost găsit!'], 404);
+        }
+
+        if (empty($this->tmdbApiKey) || $this->tmdbApiKey === 'PUNE_AICI_CHEIA_TA_TMDB') {
+            return $this->json(['error' => 'Cheia TMDB API nu este configurată în backend.'], 400);
+        }
+
+        $title = $movie->getTitle();
+        $year = $movie->getReleaseYear();
+
+        // 1. Cautam filmul pe TMDB dupa titlu (si an, daca exista)
+        $searchUrl = sprintf(
+            'https://api.themoviedb.org/3/search/movie?api_key=%s&query=%s&year=%d',
+            $this->tmdbApiKey,
+            urlencode($title),
+            $year
+        );
+
+        $searchData = $this->makeTmdbRequest($searchUrl);
+
+        // Daca nu gasim cu an, incercam doar dupa titlu
+        if (empty($searchData['results'])) {
+            $fallbackUrl = sprintf(
+                'https://api.themoviedb.org/3/search/movie?api_key=%s&query=%s',
+                $this->tmdbApiKey,
+                urlencode($title)
+            );
+            $searchData = $this->makeTmdbRequest($fallbackUrl);
+        }
+
+        if (empty($searchData['results'][0]['id'])) {
+            return $this->json([
+                'providers' => [],
+                'link' => null,
+                'message' => 'Filmul nu a fost găsit în baza de date TMDB.'
+            ]);
+        }
+
+        $tmdbId = $searchData['results'][0]['id'];
+
+        // 2. Preluam furnizorii de streaming pentru Romania (RO)
+        $providersUrl = sprintf(
+            'https://api.themoviedb.org/3/movie/%d/watch/providers?api_key=%s',
+            $tmdbId,
+            $this->tmdbApiKey
+        );
+
+        $providersData = $this->makeTmdbRequest($providersUrl);
+        $roData = $providersData['results']['RO'] ?? null;
+
+        if (!$roData) {
+            return $this->json([
+                'providers' => [],
+                'link' => null,
+                'message' => 'Momentan indisponibil pe platformele de streaming din România.'
+            ]);
+        }
+
+        $providers = [];
+        $seenIds = [];
+
+        // Combinam flatrate (abonament: Netflix, Max, Disney+), rent si buy
+        foreach (['flatrate' => 'Abonament', 'rent' => 'Închiriere', 'buy' => 'Cumpărare'] as $type => $label) {
+            if (!empty($roData[$type])) {
+                foreach ($roData[$type] as $provider) {
+                    if (!in_array($provider['provider_id'], $seenIds, true)) {
+                        $seenIds[] = $provider['provider_id'];
+                        $providers[] = [
+                            'id' => $provider['provider_id'],
+                            'name' => $provider['provider_name'],
+                            'logo' => 'https://image.tmdb.org/t/p/original' . $provider['logo_path'],
+                            'type' => $label
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->json([
+            'providers' => $providers,
+            'link' => $roData['link'] ?? null,
+            'message' => empty($providers) ? 'Nu sunt platforme active listate pentru România.' : null
+        ]);
+    }
+
+    private function makeTmdbRequest(string $url): ?array
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response !== false ? json_decode($response, true) : null;
     }
 }
