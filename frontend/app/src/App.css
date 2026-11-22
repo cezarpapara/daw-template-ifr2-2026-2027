@@ -234,3 +234,11 @@ button:disabled {
 .reviews input, .reviews select, .reviews textarea { padding: 6px 8px; font: inherit; }
 .reviews .error { color: #b42318; font-weight: bold; }
 .reviews .thanks { color: #166534; font-weight: bold; }
+
+/* Laboratorul 10: chenar rosu pe campurile cu eroare (aria-invalid) */
+.reviews input[aria-invalid="true"],
+.reviews select[aria-invalid="true"],
+.reviews textarea[aria-invalid="true"] {
+  border: 2px solid #b42318;
+  background: #fef3f2;
+}

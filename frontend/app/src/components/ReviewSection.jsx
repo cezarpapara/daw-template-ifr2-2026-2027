@@ -12,6 +12,8 @@ export default function ReviewSection({ productId }) {
   const [saving, setSaving] = useState(false)
   // Exercitiul 2: mesajul de multumire, care dispare dupa 3 secunde
   const [thanks, setThanks] = useState(false)
+  // Laboratorul 10: erorile pe campuri (author, rating, comment)
+  const [fieldErrors, setFieldErrors] = useState({})
 
   // Se executa la afisare si ori de cate ori se schimba productId
   useEffect(() => {
@@ -38,6 +40,7 @@ export default function ReviewSection({ productId }) {
     e.preventDefault()
     setSaving(true)
     setError('')
+    setFieldErrors({})
     try {
       const created = await api.createReview({
         author: form.author,
@@ -50,6 +53,7 @@ export default function ReviewSection({ productId }) {
       setThanks(true)
     } catch (err) {
       setError(err.message)
+      setFieldErrors(err.fields || {})
     } finally {
       setSaving(false)
     }
@@ -94,21 +98,27 @@ export default function ReviewSection({ productId }) {
         ))}
       </ul>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <h3>Adaugati o recenzie</h3>
         <label>
           Numele vostru
-          <input name="author" value={form.author} onChange={handleChange} required />
+          <input name="author" value={form.author} onChange={handleChange}
+            aria-invalid={Boolean(fieldErrors.author)} />
+          {fieldErrors.author && <span className="error">{fieldErrors.author}</span>}
         </label>
         <label>
           Nota
-          <select name="rating" value={form.rating} onChange={handleChange}>
+          <select name="rating" value={form.rating} onChange={handleChange}
+            aria-invalid={Boolean(fieldErrors.rating)}>
             {[5, 4, 3, 2, 1].map((n) => <option key={n} value={n}>{n}</option>)}
           </select>
+          {fieldErrors.rating && <span className="error">{fieldErrors.rating}</span>}
         </label>
         <label>
           Comentariu (optional)
-          <textarea name="comment" value={form.comment} onChange={handleChange} rows={3} />
+          <textarea name="comment" value={form.comment} onChange={handleChange} rows={3}
+            aria-invalid={Boolean(fieldErrors.comment)} />
+          {fieldErrors.comment && <span className="error">{fieldErrors.comment}</span>}
         </label>
         <button type="submit" disabled={saving}>
           {saving ? 'Se trimite...' : 'Trimite recenzia'}

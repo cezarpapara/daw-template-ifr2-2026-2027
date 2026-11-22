@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 // Tabela "review": recenziile produselor
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
@@ -17,13 +18,18 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    // Exercitiul 1: minimum 2 caractere (Length nu verifica un sir gol, de aceea e si NotBlank)
+    #[Assert\NotBlank(message: 'Autorul este obligatoriu.')]
+    #[Assert\Length(min: 2, max: 100, minMessage: 'Autorul trebuie să aibă cel puțin {{ limit }} caractere.', maxMessage: 'Cel mult {{ limit }} caractere.')]
     private ?string $author = null;
 
     #[ORM\Column]
+    #[Assert\Range(min: 1, max: 5, notInRangeMessage: 'Nota trebuie să fie între {{ min }} și {{ max }}.')]
     private ?int $rating = null;
 
     // Comentariul este optional (nullable)
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(max: 1000, maxMessage: 'Comentariul are cel mult {{ limit }} caractere.')]
     private ?string $comment = null;
 
     #[ORM\Column]
@@ -33,6 +39,7 @@ class Review
     // onDelete: 'CASCADE' = cand se sterge produsul, i se sterg si recenziile.
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Assert\NotNull(message: 'Produsul indicat nu există.')]
     private ?Product $product = null;
 
     public function __construct()
