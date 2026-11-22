@@ -21,6 +21,28 @@ async function request(path, options = {}) {
   return data
 }
 
+// Laboratorul 09: varianta pentru recenzii. Citeste si erorile pe campuri
+// ({ errors: { rating: '...' } }) pe care le trimite ReviewController.
+async function reviewRequest(path, options = {}) {
+  const response = await fetch(`${API_URL}${path}`, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  })
+  if (response.status === 204) {
+    return null
+  }
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    const fields = data.errors ?? {}
+    const error = new Error(
+      Object.values(fields).join(' ') || data.error || `Eroare ${response.status}`
+    )
+    error.fields = fields
+    throw error
+  }
+  return data
+}
+
 export const api = {
   url: API_URL,
 
@@ -49,4 +71,16 @@ export const api = {
 
   // DELETE /api/products/{id}
   deleteProduct: (id) => request(`/api/products/${id}`, { method: 'DELETE' }),
+
+  // --- Recenzii (laboratorul 09) ---
+
+  // GET /api/products/{id}/reviews
+  getReviews: (productId) => reviewRequest(`/api/products/${productId}/reviews`),
+
+  // POST /api/reviews
+  createReview: (review) =>
+    reviewRequest('/api/reviews', { method: 'POST', body: JSON.stringify(review) }),
+
+  // DELETE /api/reviews/{id}
+  deleteReview: (id) => reviewRequest(`/api/reviews/${id}`, { method: 'DELETE' }),
 }

@@ -216,3 +216,21 @@ button:disabled {
 .search-bar input {
   flex: 1;
 }
+
+/* Laboratorul 09: sectiunea de recenzii (contrast ridicat pe fond alb) */
+.reviews {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  color: #1f2937;
+}
+.reviews .average { font-weight: bold; color: #14532d; }
+.review-list { list-style: none; padding: 0; }
+.review-list li { padding: 0.6rem 0; border-bottom: 1px solid #e5e7eb; }
+.stars { color: #b45309; letter-spacing: 0.05em; }
+.reviews form { display: flex; flex-direction: column; gap: 0.5rem; max-width: 420px; margin-top: 1rem; }
+.reviews input, .reviews select, .reviews textarea { padding: 6px 8px; font: inherit; }
+.reviews .error { color: #b42318; font-weight: bold; }
+.reviews .thanks { color: #166534; font-weight: bold; }
