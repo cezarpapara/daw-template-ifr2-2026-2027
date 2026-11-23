@@ -46,4 +46,24 @@ export const api = {
 
   // DELETE /api/products/{id}
   deleteProduct: (id) => request(`/api/products/${id}`, { method: 'DELETE' }),
+
+  // ---------------- Algoritmi (Proiectarea algoritmilor) ----------------
+
+  // GET /api/algorithms/sort/methods
+  getSortMethods: () => request('/api/algorithms/sort/methods'),
+
+  // POST /api/algorithms/sort   { method, values, steps }
+  runSort: (method, values, steps = true) =>
+    request('/api/algorithms/sort', { method: 'POST', body: JSON.stringify({ method, values, steps }) }),
+
+  // POST /api/algorithms/sort/benchmark   { methods, sizes, order, repeat }
+  runBenchmark: (options) =>
+    request('/api/algorithms/sort/benchmark', { method: 'POST', body: JSON.stringify(options) }),
+
+  // GET /api/algorithms/search/methods
+  getSearchMethods: () => request('/api/algorithms/search/methods'),
+
+  // POST /api/algorithms/search   { method, values, target, steps }
+  runSearch: (method, values, target, steps = true) =>
+    request('/api/algorithms/search', { method: 'POST', body: JSON.stringify({ method, values, target, steps }) }),
 }
