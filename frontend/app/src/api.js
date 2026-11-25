@@ -46,4 +46,28 @@ export const api = {
 
   // DELETE /api/products/{id}
   deleteProduct: (id) => request(`/api/products/${id}`, { method: 'DELETE' }),
+
+  // GET /api/tasks
+  getTasks: () => request('/api/tasks'),
+
+  // GET /api/tasks/{id}
+  getTask: (id) => request(`/api/tasks/${id}`),
+
+  // POST /api/tasks
+  createTask: (task) =>
+    request('/api/tasks', {
+      method: 'POST',
+      body: JSON.stringify(task),
+    }),
+
+  // PUT /api/tasks/{id}
+  updateTask: (id, task) =>
+    request(`/api/tasks/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(task),
+    }),
+
+  // DELETE /api/tasks/{id}
+  deleteTask: (id) =>
+    request(`/api/tasks/${id}`, { method: 'DELETE' }),
 }

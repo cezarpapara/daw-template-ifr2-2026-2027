@@ -1,91 +1,317 @@
+
 :root {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  color: #1f2933;
-  background: #f5f7fa;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #202b45;
+  background: #f4f6fc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  min-width: 320px;
+  background: #f4f6fc;
 }
 
-/* Meniul de sus */
+/* Meniul principal */
 .header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 12px 24px;
-  background: #1f2933;
+  gap: 40px;
+  padding: 18px 6%;
+  background: #202b45;
+  box-shadow: 0 3px 12px rgba(25, 35, 60, 0.12);
 }
 
 .logo {
   color: #ffffff;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .header nav {
   display: flex;
-  gap: 16px;
+  gap: 28px;
 }
 
 .header a {
-  color: #cbd2d9;
+  color: #cbd5e8;
   text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
 }
 
+.header a:hover,
 .header a.active {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Continutul paginii */
 .container {
-  max-width: 860px;
-  margin: 32px auto;
-  padding: 0 16px;
+  max-width: 1100px;
+  margin: 38px auto;
+  padding: 0 24px;
 }
 
 h1 {
-  margin-bottom: 4px;
+  margin: 0 0 10px;
+  font-size: 2.2rem;
+  color: #202b45;
+}
+
+h2 {
+  color: #202b45;
+  margin-top: 0;
+}
+
+h3 {
+  color: #202b45;
 }
 
 .subtitle,
 .muted {
-  color: #52606d;
+  color: #77839b;
+  font-size: 1.05rem;
 }
 
+.dashboard-heading {
+  margin-bottom: 28px;
+}
+
+/* Carduri */
 .card {
   background: #ffffff;
-  border: 1px solid #e4e7eb;
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin: 16px 0;
+  border: 1px solid #e8ebf3;
+  border-radius: 14px;
+  padding: 28px;
+  margin: 20px 0;
+  box-shadow: 0 4px 15px rgba(35, 48, 80, 0.04);
 }
 
-code {
-  background: #f0f4f8;
-  padding: 2px 6px;
-  border-radius: 4px;
+.card h2 {
+  margin-bottom: 22px;
 }
 
-/* Mesaje de stare */
+/* Statistici dashboard */
+.task-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 28px 0;
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1px solid #e8ebf3;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(35, 48, 80, 0.04);
+}
+
+.stat-card span {
+  color: #77839b;
+  font-size: 0.95rem;
+}
+
+.stat-card strong {
+  color: #5145cd;
+  font-size: 2rem;
+}
+
+/* Mesaje */
 .status {
-  border-radius: 6px;
-  padding: 12px 16px;
+  border-radius: 9px;
+  padding: 14px 18px;
   margin: 16px 0;
 }
 
 .status p {
-  margin: 4px 0;
+  margin: 5px 0;
 }
 
 .status-ok {
-  background: #e3f9e5;
-  border: 1px solid #57ae5b;
+  background: #e8f9ef;
+  border: 1px solid #8bd5a8;
+  color: #176b3b;
 }
 
 .status-error {
-  background: #ffe3e3;
-  border: 1px solid #e12d39;
+  background: #fff0f0;
+  border: 1px solid #f2aaaa;
+  color: #a62935;
+}
+
+/* Formulare */
+.form {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #dce1ec;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #27334d;
+  background: #ffffff;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #6558d3;
+  box-shadow: 0 0 0 3px rgba(101, 88, 211, 0.12);
+}
+
+.date-field {
+  color: #526079;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+
+/* Butoane */
+button {
+  background: #5145cd;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background: #4035ad;
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  background: #e9eaf5;
+  color: #424d69;
+}
+
+.button-secondary:hover {
+  background: #d9dcef;
+}
+
+.button-danger {
+  background: #e34d61;
+  padding: 9px 15px;
+  font-size: 0.9rem;
+}
+
+.button-danger:hover {
+  background: #c9364b;
+}
+
+/* Lista de sarcini */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #fafbff;
+  border: 1px solid #e8ebf3;
+  border-radius: 12px;
+  transition: box-shadow 0.2s;
+}
+
+.task-item:hover {
+  box-shadow: 0 4px 14px rgba(35, 48, 80, 0.08);
+}
+
+.task-main {
+  min-width: 0;
+}
+
+.task-main h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.task-main p {
+  color: #77839b;
+  margin: 0 0 10px;
+}
+
+.task-main small {
+  color: #929bb0;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #64708a;
+  font-size: 0.88rem;
+}
+
+.priority {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.priority-low {
+  color: #16734a;
+  background: #dcf8e9;
+}
+
+.priority-medium {
+  color: #98620b;
+  background: #fff1ce;
+}
+
+.priority-high {
+  color: #b52f45;
+  background: #ffe1e5;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
 }
 
 /* Tabele */
@@ -97,42 +323,121 @@ table {
 th,
 td {
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #e4e7eb;
+  padding: 12px;
+  border-bottom: 1px solid #e8ebf3;
 }
 
-/* Formulare */
-.form {
+/* Cod */
+code {
+  background: #eef0fa;
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+
+/* Adaptare pentru telefon si tableta */
+@media (max-width: 750px) {
+  .container {
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  .header {
+    padding: 16px 20px;
+    gap: 24px;
+  }
+
+  .header nav {
+    gap: 16px;
+  }
+
+  .task-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .task-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .task-info {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .task-stats {
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+}
+
+/* Bara de progres */
+.progress-heading {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.progress-heading h2 {
+  margin: 0;
 }
 
-input,
-select {
-  padding: 8px 10px;
-  border: 1px solid #cbd2d9;
-  border-radius: 6px;
-  font-size: 1rem;
+.progress-heading strong {
+  color: #5145cd;
+  font-size: 1.4rem;
 }
 
-button {
-  background: #2f5fd0;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 1rem;
-  cursor: pointer;
+.progress-track {
+  width: 100%;
+  height: 13px;
+  background: #e8eaf4;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.button-danger {
-  background: #e12d39;
-  padding: 4px 10px;
-  font-size: 0.9rem;
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5145cd, #8b5cf6);
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+/* Etichete pentru statusuri */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-completed {
+  background: #dcf8e9;
+  color: #16734a;
+}
+
+.status-progress {
+  background: #e4e9ff;
+  color: #4035ad;
+}
+
+.status-pending {
+  background: #fff1ce;
+  color: #98620b;
 }

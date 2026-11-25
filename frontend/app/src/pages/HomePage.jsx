@@ -1,54 +1,165 @@
+
+
 import { useEffect, useState } from 'react'
 import { api } from '../api.js'
 
-// Pagina de start: verifica daca backend-ul si baza de date raspund
 function HomePage() {
+  const [tasks, setTasks] = useState([])
   const [health, setHealth] = useState(null)
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    api.getHealth()
-      .then((data) => setHealth(data))
+    Promise.all([api.getTasks(), api.getHealth()])
+      .then(([tasksData, healthData]) => {
+        setTasks(tasksData)
+        setHealth(healthData)
+      })
       .catch((err) => setError(err.message))
+      .finally(() => setLoading(false))
   }, [])
+
+  const totalTasks = tasks.length
+
+  const completedTasks = tasks.filter(
+    (task) => task.status === 'Completed'
+  ).length
+
+  const inProgressTasks = tasks.filter(
+    (task) => task.status === 'In Progress'
+  ).length
+
+  const pendingTasks = tasks.filter(
+    (task) => task.status === 'To Do'
+  ).length
+
+  const progress = totalTasks === 0
+    ? 0
+    : Math.round((completedTasks / totalTasks) * 100)
 
   return (
     <>
-      <h1>Aplicatie DAW</h1>
-      <p className="subtitle">Frontend React conectat la un backend Symfony</p>
+      <div className="dashboard-heading">
+        <div>
+          <h1>Dashboard TaskFlow</h1>
+          <p className="subtitle">
+            Organizeaza-ti sarcinile si urmareste-ti progresul.
+          </p>
+        </div>
+      </div>
 
-      <section className="card">
-        <h2>Starea backend-ului</h2>
-        <p>Cerere: <code>GET {api.url}/api/health</code></p>
+      {error && (
+        <div className="status status-error">
+          <strong>Nu s-au putut incarca datele.</strong>
+          <p>{error}</p>
+        </div>
+      )}
 
-        {!health && !error && <p>Se verifica...</p>}
+      {loading ? (
+        <section className="card">
+          <p>Se incarca dashboard-ul...</p>
+        </section>
+      ) : !error && (
+        <>
+          <section className="task-stats">
+            <article className="stat-card">
+              <span>Total sarcini</span>
+              <strong>{totalTasks}</strong>
+            </article>
 
-        {error && (
-          <div className="status status-error">
-            <strong>Backend-ul nu raspunde.</strong>
-            <p>{error}</p>
-            <p>Porniti backend-ul: din folderul principal al proiectului rulati <code>docker compose -f backend/compose.yaml up -d</code>.</p>
-          </div>
-        )}
+            <article className="stat-card">
+              <span>In asteptare</span>
+              <strong>{pendingTasks}</strong>
+            </article>
 
-        {health && (
-          <div className="status status-ok">
-            <p><strong>Mesaj:</strong> {health.message}</p>
-            <p><strong>Baza de date:</strong> {health.database}</p>
-            <p><strong>Ora serverului:</strong> {health.time}</p>
-          </div>
-        )}
-      </section>
+            <article className="stat-card">
+              <span>In desfasurare</span>
+              <strong>{inProgressTasks}</strong>
+            </article>
 
-      <section className="card">
-        <h2>Link-uri utile</h2>
-        <ul>
-          <li>
-            Documentatia API (Swagger):{' '}
-            <a href={`${api.url}/api/doc`} target="_blank" rel="noreferrer">{api.url}/api/doc</a>
-          </li>
-        </ul>
-      </section>
+            <article className="stat-card">
+              <span>Finalizate</span>
+              <strong>{completedTasks}</strong>
+            </article>
+          </section>
+
+          <section className="card">
+            <div className="progress-heading">
+              <h2>Progresul proiectului</h2>
+              <strong>{progress}%</strong>
+            </div>
+
+            <div
+              className="progress-track"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-label="Procentul sarcinilor finalizate"
+            >
+              <div
+                className="progress-fill"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            <p className="muted">
+              {completedTasks} din {totalTasks} sarcini finalizate.
+            </p>
+          </section>
+
+          <section className="card">
+            <h2>Sarcini recente</h2>
+
+            {tasks.length === 0 ? (
+              <p>Nu exista momentan sarcini. Adauga prima ta sarcina!</p>
+            ) : (
+              <div className="task-list">
+                {tasks.slice(0, 5).map((task) => (
+                  <article className="task-item" key={task.id}>
+                    <div className="task-main">
+                      <h3>{task.title}</h3>
+                      <p>{task.description || 'Fara descriere'}</p>
+                    </div>
+
+                    <div className="task-info">
+                      <span className={`priority priority-${task.priority.toLowerCase()}`}>
+                        {task.priority}
+                      </span>
+
+                      <span className={`status-badge ${
+                        task.status === 'Completed'
+                          ? 'status-completed'
+                          : task.status === 'In Progress'
+                            ? 'status-progress'
+                            : 'status-pending'
+                      }`}>
+                        {task.status === 'Completed'
+                          ? 'Finalizata'
+                          : task.status === 'In Progress'
+                            ? 'In desfasurare'
+                            : 'De facut'}
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section className="card">
+            <h2>Conexiune sistem</h2>
+
+            {health && (
+              <div className="status status-ok">
+                <p><strong>Backend:</strong> Conectat</p>
+                <p><strong>Baza de date:</strong> {health.database}</p>
+                <p><strong>Ora serverului:</strong> {health.time}</p>
+              </div>
+            )}
+          </section>
+        </>
+      )}
     </>
   )
 }
