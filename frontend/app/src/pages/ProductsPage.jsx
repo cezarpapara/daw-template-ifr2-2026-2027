@@ -10,6 +10,7 @@ function ProductsPage() {
   const [categories, setCategories] = useState([])
   const [form, setForm] = useState(emptyForm)
   const [error, setError] = useState(null)
+  const [search, setSearch] = useState('')
 
   function loadProducts() {
     api.getProducts()
@@ -24,6 +25,12 @@ function ProductsPage() {
       .then((data) => setCategories(data))
       .catch((err) => setError(err.message))
   }, [])
+
+  // Cautarea se face in browser, pe datele deja primite (fara cereri noi)
+  const term = search.trim().toLowerCase()
+  const visibleProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(term)
+  )
 
   // Actualizeaza campul modificat din formular
   function handleChange(event) {
@@ -91,6 +98,19 @@ function ProductsPage() {
 
       <section className="card">
         <h2>Lista produselor</h2>
+        <input
+          type="search"
+          placeholder="Cauta dupa nume..."
+          aria-label="Cauta produse"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+        {search && (
+          <button type="button" className="button-secondary" onClick={() => setSearch('')}>
+            Sterge cautarea
+          </button>
+        )}
+        <p className="muted">{visibleProducts.length} din {products.length} produse</p>
         <table>
           <thead>
             <tr>
@@ -101,7 +121,7 @@ function ProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {visibleProducts.map((product) => (
               <tr key={product.id}>
                 <td><Link to={`/produse/${product.id}`}>{product.name}</Link></td>
                 <td>{product.category.name}</td>
@@ -114,6 +134,9 @@ function ProductsPage() {
           </tbody>
         </table>
         {products.length === 0 && <p>Nu exista produse.</p>}
+        {products.length > 0 && visibleProducts.length === 0 && (
+          <p>Niciun produs nu corespunde cautarii.</p>
+        )}
       </section>
     </>
   )
