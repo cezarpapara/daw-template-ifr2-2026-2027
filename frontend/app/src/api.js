@@ -34,6 +34,9 @@ export const api = {
   createCategory: (category) =>
     request('/api/categories', { method: 'POST', body: JSON.stringify(category) }),
 
+  // GET /api/hello/{name} (laboratorul 06)
+  getHello: (name) => request(`/api/hello/${encodeURIComponent(name)}`),
+
   // GET /api/products
   getProducts: () => request('/api/products'),
 

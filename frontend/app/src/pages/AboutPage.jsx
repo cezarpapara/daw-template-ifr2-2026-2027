@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { api } from '../api.js'
 import Card from '../components/Card.jsx'
 import PageTitle from '../components/PageTitle.jsx'
 
@@ -19,6 +20,14 @@ const sections = [
 
 export default function AboutPage() {
   const [count, setCount] = useState(0)
+  const [hello, setHello] = useState('')
+
+  // Mesajul vine de la backend: GET /api/hello/Iulia
+  useEffect(() => {
+    api.getHello('Iulia')
+      .then((data) => setHello(data.message))
+      .catch(() => setHello('Backend-ul nu raspunde.'))
+  }, [])
 
   return (
     <section>
@@ -26,6 +35,7 @@ export default function AboutPage() {
         title="Despre proiect"
         subtitle="Aplicație realizată la laboratorul de PW/DAW, 2026–2027."
       />
+      {hello && <p className="muted">Mesaj de la backend: {hello}</p>}
       <p>Numărul de secțiuni: {sections.length}</p>
       <p>
         Contor: <strong>{count}</strong>{' '}
