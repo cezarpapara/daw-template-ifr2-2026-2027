@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage.jsx'
 import CategoriesPage from './pages/CategoriesPage.jsx'
 import ProductsPage from './pages/ProductsPage.jsx'
 import ProductDetailsPage from './pages/ProductDetailsPage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
 import SortingPage from './pages/SortingPage.jsx'
 import SearchPage from './pages/SearchPage.jsx'
 import ComplexityPage from './pages/ComplexityPage.jsx'
@@ -18,6 +19,7 @@ function App() {
           <NavLink to="/" end>Acasa</NavLink>
           <NavLink to="/categorii">Categorii</NavLink>
           <NavLink to="/produse">Produse</NavLink>
+          <NavLink to="/despre">Despre</NavLink>
           {/* Proiectarea algoritmilor */}
           <NavLink to="/sortare">Sortare</NavLink>
           <NavLink to="/cautare">Cautare</NavLink>
@@ -32,6 +34,7 @@ function App() {
           <Route path="/categorii" element={<CategoriesPage />} />
           <Route path="/produse" element={<ProductsPage />} />
           <Route path="/produse/:id" element={<ProductDetailsPage />} />
+          <Route path="/despre" element={<AboutPage />} />
           <Route path="/sortare" element={<SortingPage />} />
           <Route path="/cautare" element={<SearchPage />} />
           <Route path="/complexitate" element={<ComplexityPage />} />
