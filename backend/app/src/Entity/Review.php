@@ -26,30 +26,27 @@ class Review
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reviews')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
+    public function getId(): ?int { return $this->id; }
+    public function getAuthor(): ?string { return $this->author; }
+    public function getRating(): ?int { return $this->rating; }
+    public function getComment(): ?string { return $this->comment; }
+    public function getCreatedAt(): ?\DateTimeImmutable { return $this->createdAt; }
+    public function getProduct(): ?Product { return $this->product; }
 
     public function setAuthor(string $author): static
     {
         $this->author = $author;
 
         return $this;
-    }
-
-    public function getRating(): ?int
-    {
-        return $this->rating;
     }
 
     public function setRating(int $rating): static
@@ -59,11 +56,6 @@ class Review
         return $this;
     }
 
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
     public function setComment(?string $comment): static
     {
         $this->comment = $comment;
@@ -71,27 +63,23 @@ class Review
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'author' => $this->author,
+            'rating' => $this->rating,
+            'comment' => $this->comment,
+            'createdAt' => $this->createdAt?->format('Y-m-d H:i'),
+            'productId' => $this->product?->getId(),
+            'productName' => $this->product?->getName(),
+        ];
     }
 }
