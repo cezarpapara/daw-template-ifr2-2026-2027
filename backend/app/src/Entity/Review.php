@@ -30,6 +30,12 @@ class Review
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,5 +99,16 @@ class Review
         $this->product = $product;
 
         return $this;
+    }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'author' => $this->author,
+            'rating' => $this->rating,
+            'comment' => $this->comment,
+            'createdAt' => $this->createdAt?->format(\DateTimeInterface::ATOM),
+            'productId' => $this->product?->getId(),
+        ];
     }
 }
