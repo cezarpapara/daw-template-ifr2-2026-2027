@@ -1,4 +1,3 @@
-
 :root {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color: #1f2933;
@@ -138,60 +137,141 @@ button {
   font-size: 0.9rem;
 }
 
-/* Cardurile din pagina Despre proiect */
-.info-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+/* ---------------- Algoritmi (Proiectarea algoritmilor) ---------------- */
+.header nav {
+  flex-wrap: wrap;
 }
 
-.info-card {
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 1rem;
+.grow {
+  flex: 1 1 260px;
 }
 
-.info-card-title {
-  margin: 0.5rem 0;
-  font-size: 1.2rem;
+.narrow {
+  width: 90px;
 }
 
-.info-card-image {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-}
-
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-  max-width: 480px;
-}
-
-.form-field input,
-.form-field textarea {
-  padding: 10px;
-  border: 1px solid #b8c2cc;
-  border-radius: 6px;
-  font: inherit;
-}
-
-.form-error {
-  color: #b42318;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.form-success {
-  color: #2e7d32;
-  font-weight: bold;
+.button-secondary {
+  background: #e4e7eb;
+  color: #1f2933;
 }
 
 button:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
+}
+
+/* Vectorul desenat ca bare */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 220px;
+  padding: 8px 0;
+}
+
+.bar-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.2s, background 0.2s;
+}
+
+.bar-value,
+.bar-index {
+  font-size: 0.75rem;
+  color: #52606d;
+}
+
+.bar-value {
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.85rem;
+  margin: 8px 0;
+}
+
+.legend i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+
+.step-message {
+  min-height: 1.5em;
+}
+
+.player {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Cifrele principale ale unei rulari */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.stats div {
+  background: #f0f4f8;
+  border-radius: 8px;
+  padding: 10px;
+  color: #52606d;
+  font-size: 0.85rem;
+}
+
+.stats span {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2933;
+}
+
+.info-table {
+  margin-top: 12px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 12px;
+}
+
+.chart svg {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bars {
+    height: 160px;
+  }
+}
+
+/* Tabelele late se pot derula orizontal pe ecrane mici */
+.table-scroll {
+  overflow-x: auto;
 }
