@@ -176,6 +176,151 @@
           }
         }
       ]
+    },
+    {
+      "name": "Algoritmi (Proiectarea algoritmilor)",
+      "item": [
+        {
+          "name": "Metodele de sortare",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/algorithms/sort/methods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "algorithms",
+                "sort",
+                "methods"
+              ]
+            },
+            "description": "Lista metodelor de sortare si complexitatile lor."
+          }
+        },
+        {
+          "name": "Sortare cu pasi",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/algorithms/sort",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "algorithms",
+                "sort"
+              ]
+            },
+            "description": "Sorteaza vectorul cu metoda aleasa; intoarce rezultatul, numarul de operatii, timpul si pasii.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"method\": \"bubble\",\n  \"values\": [\n    5,\n    1,\n    4,\n    2,\n    8\n  ],\n  \"steps\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Benchmark sortari",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/algorithms/sort/benchmark",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "algorithms",
+                "sort",
+                "benchmark"
+              ]
+            },
+            "description": "Masoara metodele pe vectori din ce in ce mai mari.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"methods\": [\n    \"bubble\",\n    \"merge\"\n  ],\n  \"sizes\": [\n    250,\n    500,\n    1000,\n    2000\n  ],\n  \"order\": \"random\",\n  \"repeat\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Metodele de cautare",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/algorithms/search/methods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "algorithms",
+                "search",
+                "methods"
+              ]
+            },
+            "description": "Lista metodelor de cautare."
+          }
+        },
+        {
+          "name": "Cautare binara",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/algorithms/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "algorithms",
+                "search"
+              ]
+            },
+            "description": "Cauta o valoare intr-un vector sortat.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"method\": \"binary\",\n  \"values\": [\n    2,\n    5,\n    8,\n    12,\n    16,\n    23,\n    38,\n    56,\n    72,\n    91\n  ],\n  \"target\": 23,\n  \"steps\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   ]
 }
