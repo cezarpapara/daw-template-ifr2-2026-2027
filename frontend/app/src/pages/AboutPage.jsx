@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 import Card from '../components/Card';
 import PageTitle from '../components/PageTitle';
 const sections = [
@@ -18,6 +18,7 @@ const sections = [
 ];
 
 export default function AboutPage() {
+  const [count, setCount] = useState(0);
   return (
     <section>
       
@@ -27,7 +28,15 @@ export default function AboutPage() {
 />
 
 <p>Număr de secțiuni: {sections.length}</p>
+<p>Contor: {count}</p>
 
+<button onClick={() => setCount(count + 1)}>
+  Incrementează
+</button>
+
+<button onClick={() => setCount(0)}>
+  Resetează
+</button>
 
       <div className="info-card-grid">
         {sections.map((section) => (
